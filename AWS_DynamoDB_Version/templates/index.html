@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; background-color: #f4f4f9; color: #333; }
+        h1 { color: #0056b3; }
+        .container { background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        textarea { width: 100%; padding: 10px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; resize: none;}
+        .btn { padding: 10px 15px; border: none; border-radius: 4px; color: white; cursor: pointer; }
+        .btn-add { background-color: #28a745; }
+        .notes-list { list-style-type: none; padding: 0; }
+        .note-item { background-color: #e9ecef; border: 1px solid #dee2e6; padding: 15px; margin-bottom: 10px; border-radius: 5px; display: flex; justify-content: space-between; align-items: center; }
+        .note-content { white-space: pre-wrap; word-wrap: break-word; }
+        .btn-delete { background-color: #dc3545; font-size: 0.8em; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Add a New Note</h1>
+        <form action="{{ url_for('add_note') }}" method="post">
+            <textarea name="note_content" rows="4" placeholder="Write your note here..." required></textarea>
+            <br>
+            <button type="submit" class="btn btn-add">Add Note</button>
+        </form>
+
+        <hr style="margin: 30px 0;">
+
+        <h1>Notes</h1>
+        <ul class="notes-list">
+            {% for note in notes %}
+                <li class="note-item">
+                    <span class="note-content">{{ note['note_content'] }}</span>
+                    <form action="{{ url_for('delete_note', note_id=note['note_id']) }}" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-delete">Delete</button>
+                    </form>
+                </li>
+            {% else %}
+                <li>No notes yet. Add one above!</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+</body>
+</html>

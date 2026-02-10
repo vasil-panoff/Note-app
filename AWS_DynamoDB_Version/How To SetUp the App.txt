@@ -1,0 +1,15 @@
+1. Set S3
+2. Upload files:
+Note_App.zip
+	-- application files
+note-app-setup.sh 
+	-- installs reqirments, sets the environment 
+	-- sets env vars
+	-- copy and extract Note_App.zip.zip
+	-- sets systemd service for flask
+	-- configute nginx
+3. Set DynamoDB - key: note_id
+4. Set IAM Roles - S3 and DynamoDB Full Access
+5. Create new EC2
+6. Set SSH
+7. Set user-data

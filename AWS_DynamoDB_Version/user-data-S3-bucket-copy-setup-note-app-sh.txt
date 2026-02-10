@@ -1,0 +1,15 @@
+#!/bin/bash
+set -x
+exec > >(tee /var/log/user-data.log|logger -t user-data -s 2>/dev/console) 2>&1
+
+# Create app directory
+mkdir -p /home/ec2-user/Notes_App
+chown -R ec2-user:ec2-user /home/ec2-user/Notes_App
+
+# Download setup script from S3
+aws s3 cp s3://notes-app-s3-bucket-0001/setup-notes-app.sh /home/ec2-user/Notes_App/setup-notes-app.sh
+chown ec2-user:ec2-user /home/ec2-user/Notes_App/setup-notes-app.sh
+chmod +x /home/ec2-user/Notes_App/setup-notes-app.sh
+
+# Schedule setup to run after 60 seconds in background
+sudo -u ec2-user bash -c "sleep 60 && /home/ec2-user/Notes_App/setup-notes-app.sh > /home/ec2-user/setup-log.txt 2>&1 &"
